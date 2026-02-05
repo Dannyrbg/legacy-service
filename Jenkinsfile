@@ -13,12 +13,19 @@ pipeline {
       steps { checkout scm }
     }
 
-    stage("Build (Maven)") {
-      steps {
+
+  stage("Build (Maven)") {
+    steps {
+        sh 'echo "=== JAVA INFO ==="'
+        sh 'java -version'
+        sh 'mvn -version'
+        sh 'which java'
+        sh 'echo $JAVA_HOME'
+        sh 'echo "=== BUILD ==="'
         sh 'mvn -B clean package -DskipTests'
-        sh 'ls -lh target/*.jar'
       }
     }
+
 
     stage("Docker build") {
       steps {
