@@ -17,6 +17,9 @@ pipeline {
   stage("Build (Maven)") {
     steps {
         sh 'echo "=== JAVA INFO ==="'
+        sh 'which javac || true'
+        sh 'javac -version || true'
+        sh 'echo "JAVA_HOME=$JAVA_HOME"'
         sh 'java -version'
         sh 'mvn -version'
         sh 'which java'
