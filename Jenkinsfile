@@ -16,8 +16,10 @@ pipeline {
 
 stage('Build (Maven)') {
   steps {
-    sh '''
-      set -euxo pipefail
+    sh(label: 'Build with Bash', script: '''
+      #!/usr/bin/env bash
+      set -euo pipefail
+      set -x
 
       export JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64
       export PATH="$JAVA_HOME/bin:$PATH"
@@ -27,12 +29,10 @@ stage('Build (Maven)') {
       which javac
       java -version
       javac -version
-
-      # extra: confirm what Maven thinks Java is
       mvn -version
 
       mvn -B -V clean package -DskipTests
-    '''
+    ''')
   }
 }
 
