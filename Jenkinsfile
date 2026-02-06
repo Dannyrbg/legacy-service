@@ -14,20 +14,24 @@ pipeline {
     }
 
 
-  stage("Build (Maven)") {
-    steps {
-        sh 'echo "=== JAVA INFO ==="'
-        sh 'which javac || true'
-        sh 'javac -version || true'
-        sh 'echo "JAVA_HOME=$JAVA_HOME"'
-        sh 'java -version'
-        sh 'mvn -version'
-        sh 'which java'
-        sh 'echo $JAVA_HOME'
-        sh 'echo "=== BUILD ==="'
-        sh 'mvn -B clean package -DskipTests'
-      }
-    }
+stage('Build (Maven)') {
+  steps {
+    sh '''
+      set -euxo pipefail
+
+      export JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64
+      export PATH="$JAVA_HOME/bin:$PATH"
+
+      echo "JAVA_HOME=$JAVA_HOME"
+      which java
+      which javac
+      java -version
+      javac -version
+
+      mvn -B -V clean package -DskipTests
+    '''
+  }
+}
 
 
     stage("Docker build") {
