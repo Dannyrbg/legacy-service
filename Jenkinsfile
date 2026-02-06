@@ -28,6 +28,9 @@ stage('Build (Maven)') {
       java -version
       javac -version
 
+      # extra: confirm what Maven thinks Java is
+      mvn -version
+
       mvn -B -V clean package -DskipTests
     '''
   }
